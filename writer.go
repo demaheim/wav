@@ -91,6 +91,18 @@ func (w *Writer) WriteInt32(sample int32) error {
 	return err
 }
 
+// WriteInt16 writes the sample to the file using the binary package
+func (w *Writer) WriteInt16(sample int16) error {
+	err := binary.Write(w.sampleBuf, binary.LittleEndian, sample)
+	if err != nil {
+		return err
+	}
+
+	w.bytesWritten += 2
+
+	return err
+}
+
 // WriteSample writes a []byte array to file without conversion
 func (w *Writer) WriteSample(sample []byte) error {
 	if len(sample)*8 != int(w.options.SignificantBits) {
